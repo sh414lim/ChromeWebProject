@@ -8,8 +8,7 @@ const loginButton=document.querySelector("#login-form button");
 
 //click에 대한 event 반응 함수
 function handleLoginBtnClick(){
-    console.log(loginInput.value);
-    console.log("click");
+    console.log(username)
 }
 
 loginButton.addEventListener("click",handleLoginBtnClick)

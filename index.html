@@ -8,10 +8,12 @@
     <title>Momentum</title>
 </head>
 <body>
-  <div class="form" id="login-form">
-    <input type="text" value="lfdlfldfls" placeholder="What is your name?"/>
+
+    <!-- input 의 유효성 검사를 작동시키기 위해서는 input 는 form 안에 들어 있어야한  -->
+  <form class="form" id="login-form">
+    <input required maxlength="15" type="text"  placeholder="What is your name?"/>
     <button>Log In</button>
-  </div>
+  </form>
     <script src="app.js"></script>
 </body>
 </html>
