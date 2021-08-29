@@ -194,5 +194,135 @@ const promiose =new Promise((resolve,reject)=>{
 #### let const arrow Function 클레스 프로미스 스프레드 연산자
 
 # React
-## 리액트 상태관리
-###
+
+### React 는 사용자 인터페이스를 구축하기 위한 선언적이고 효율적이며 유연한 javaScript 라이브러리
+
+## 컴포넌트라고 불리는 작고 고립된 코드의 파편을 이용하여 복잡한 UI를 구성하도록 돕는다 
+
+## React 라이프 사이클
+### React 의 클래스형 컴포넌트에서 사용하는 LifeCycle API는 컴포넌트가 DOM 위에 생성되거나 사라질대 혹은 업데이트 될때 호출되는 API
+
+## 클래스형에 라이프사이클 메소드에는 크게 mount update,unmount 3가지 과정으로 나뉜다.
+### mount
+#### 컴포넌트가 만들어질때 componentDidMount 에서 비동기 처리같은것을 주로한다
+
+### update
+#### shouldComponentUpdate 에서 업데이트 직전에 랜더링시(상태가 변경)에 조건으로 재렌더링을 하냐마냐 결정을 할 수 있고,componentDidUpdate 업테이트 직후
+
+### unmount 에서 컴포넌트가 소멸된 시점에 타이머나 비동기 API를 제거 하는 곳이다
+
+### render() 함수
+#### 라이프사이클 메서드 중 유일한 필수 메서드
+#### render() 함수 메서드 안에서 this.props 와 this.state 에 접근할 수 있으며 리액트 요소를 반환한다
+#### 요소는 div 같은 태그가 될 수도 있고 따로 선언한 컴포넌트가 될 수도 있다.
+#### 아무것도 보여주고 싶지 않다면 null 값이나 false 값을 반환하도록 한다
+
+#### render() 함수 메서드 안에서는 이벤트 설정이 아닌 곳에서 setState를 사용하면 안되며 브라우저의 DOM에 접근해서도 안된다
+#### DOM정보를 가져오거나 state에 변화를 줄 떄는 componentDidMount 에서 처리해야한다
+
+### constructor 메서드
+- constructor(props) {....}
+#### 이것은 컴포넌트의 생성자 메서드로 컴포넌트를 만들 때 처음으로 실행된다.
+#### 이 메서드에서 초기 state를 정할 수 있다.
+
+### getDerivedStateFromProps(props,state)
+#### 리액트 v16.3 이후에 새로 만든 라이프사이클 메서드이다
+#### props로 받아 온 값을 state에 동기화시키는 용도로 컴포넌트가 마운트될 때 와 업데이트될때 호출
+
+-static getDerivedStateFromProps(nextProps,prevState){
+    if(nextProps.value !== prevState.value){
+        //조건에 따라 특정 값 동기화
+        return(value:nextProps.value);    }
+}
+return null ; //state를 변경할 필요가 없다면 null을 반환
+}
+
+### ComponentDidMount 메서드
+-componentDidMount(){....}
+#### 컴포넌트를 만들고 첫 렌더링을 다 마친후 실행한다
+#### 이 안에서 다른 자바스크립트 라이브러리 또는 프레임워크의 함수를 호출하거나 이벤트 등록 ,setTimeout,setInterval,네트워크 요청 같은 비동기 작업을 처리하면 된다.
+
+### shouldComponentUpdate()메서드
+-shouldComponentUpdate(nextProps,nextState){....}
+#### 이것은 props 또는 state를 변경했을때, 리렌더링을 시작할지 여부를 지정하는 메서드 입니다
+#### 이 메서드에서는 반드시 true 값 또는 false 값을 반환해야한다 컴포넌트를 만들 때 이 메서드를 따로 생성하지 않으면 true 값을 반환한다 이 메서드가 false 값을 반환한다면 업데이트 과정은 여기서 중지된다
+
+### componentDidUpdate 메서드
+-componentDidUpdate(prevProps,prevState,snpshot){....}
+#### 이것은 리렌더링을 완료한 후 실행
+#### 업데이트가 끝난 직후이므로 DOM 관련 처리를 해도 무방하다
+#### 여기서는 prevProps 또는 prevState를 사용하여 컴포넌트가 이전에 가졌던 데이터에 접근할 수 있다.
+#### 또 getSnapshotBeforeUpdate에서 반환한 값이 있다면 여기서 snapshot 값을 전달 받을 수 잇다.
+
+### componentWillUnmount 메서드
+#### componentWillUnmount(){....}
+#### 이것은 컴포넌트를 DOM에서 제거할 때 실행된다.
+#### componentDidMount 에서 등록한 이벤트 타이머 직접 생성한 DOM이 있다면 여기서 제거 작업
+
+### componentDidCatch 메서드
+#### componentDidCatch 메서드는 리액트 v16에서 새롭게 도입되었으며 컴포넌트 렌더링 도중에 에러가 발생했을 때 애플리케이션이 먹통이 되지 않고 오류 UI 를 보여 줄 수 있게 해준다
+
+-componentDidCatch(error,infi){
+    this.setState({
+        error:true0
+    });
+    console.log(error,info)
+}
+
+##### error는 파라미터에 어떤 에러가 발생했지는 알려준다
+##### info 파라미터는 어디에 있는 코드에서 에러가 발생했는지 에 대한 정보를 준다.
+
+
+### Angular 와 React 의 차이점
+#### Angular 은 프레임워크 React 는 라이브러리
+#### Angular는 양방향 바인딩 개념으로 Model과 view가 연결되어 있어 데이터 값이 한쪽에서 변화하면 다른쪽에서도 바로 업데이트가 진행된다.
+#### 서비스 라는 개념은 컴포넌트 간의 의존성관리를 용이하게 해준다.
+
+### React
+#### React는 Virtual DOM을 가지고 있다.
+#### 가상 DOM이 있기 떄문에 상태를 비교하여 부분적으로 렌더링 할 수 있어 속도가 빠르다.
+#### 오직 UI컴포넌트를 만들기 위한 리이브러리이다.
+
+##### Angular 는 HTML 스크립팅이 templete 기반 React 는 JSX 이용/Angular는 기본 Typescript
+
+
+## 라이브러리 프레임워크 차이
+### 자유도의 차이
+#### 프레임워크는 짜여진 패턴이나 틀 기반에서 내가 코딩하는 것
+#### 라이브러리는 내가 가져다 사용해서 자유롭게 사용
+
+### 메소드 체이닝
+#### 메소드 체이닝의 장접은 코드가 짧아진다는 장점
+#### 단점은 에러가 났을때 어느 부븐의 메소드에서 오류가 났는지 확인이 어렵다
+
+### 메모라이제이션?
+#### 불필요한 연산이나 계산을 하지 않고 기억을 해놓고 그 기억해놓은 것을 활용하는것
+
+# Restful API
+
+### REST API 는 URL 로 접근가능하고 내용이 JSON , XML 등으로 표현된 자원에 대한 행위를 HTTP Method로 정의
+### RESTfUL 하다 라는것은 REST API 의 설계의도를 명확하게 지켜주는것
+#### 슬래시를 통해 계층 관계를 표시한다던가 숫자는 ID를 나타낸다든가 동사보단 명사 위주로 사용
+
+### DOM 을 건드리는 방식과 아닌 방식들의 차이
+ 
+#### 직접 DOM 을 건드리는 경우 DOM의 구조를 파악하고 있어야 하며 클래스명이나 태그명이 바뀌는 경우 다시 DOM을 변경
+#### React 의 경우 가장 DOM 이 있고 가상 DOM이 실제 DOM 과 비교하여 state가 변화되엇는지 감지한다
+
+## 반응형 프로그래밍
+##### 데이터 스트림 : 데이터가 열을 지어 흐르는 것처럼 입력되는거 2.정해진 포멧을 사용하여 문자 또는 바이트 형식으로 송수신 되는 데이터 항목의 연속적인 흐름 3.데이터 양이 한정되어 있지 않고 지속적으로 생성되고 시간에 따라 값이 변하는 데이터의 흐름 4.연속적으로 흘러들어오는 데이터
+
+### 반응형 프로그래밍이란 데이터 스트림이라는 하나의 일관된 형식으로 만들고 이 데이터스트림을 구독하여 데이터스트림의 상태변화에 반응하는 방식으로 동작하는 애플리케이션 을 만드는것
+#### tv랑 tv방송국이 있다고 가정 tv방속국이 일정한 시간 단위로 영상에 대한 프레임을 계속해서 방출하고 tv는 방속국을 관찰하다가 새로운 영상을 방출하면 이를 흭드하는 방식 방송국=> 옵저버블 tv=>옵저버 영상프레임=>Notification 이다
+
+### null vs undefined?
+#### 기본적으로 둘다 값이 없음을 나타낸다.
+#### undefined는 데이터 타입이자 값을 나타냄 정의되지 않는것
+#### null 은 명시적으로 값이 비어있음을 나타내는데 사용
+#### nudefined는 변수를 선언만 한더라도 할당되지만 null은 변수를 선언한후 null 값을 바꾼다
+
+# 가상돔 Virtual DOM 은 실제 DOM 변화를 최소화 시켜주는 역할을 한다
+## 브라우저는 HTML 파일을 스크린에 보여주기 위해 DOM 노드 트리 생성 ,렌더트리 생성,레이아웃 페인팅 과정 을 거친다.
+### DOM 노드는 HTML의 각 엘리먼트와 연관되기 때문에 HTML파일에 20개의 변화가 생기면 DOM 노드가 변경되고 그 이후의 과정역시 20회 다시 이루어진다 작은 변화에도 매우 복잡한 과정들이 다시 실행되기 때문에 DOM 변화가 잦을 경우 성능저하
+### Virtual DOM은 뷰에 변화가 있다면 그 변화가 실제 DOM에 적용되기 전에 Virtual DOM에 적용시키고 최종결 과만 실제 DOM에 전달한다.
+### 따라서 20개의 변화가 있다면 Virtual DOM 은 변화된 부분만 가려내어 실제 DOM에 전달하고 실제 DOM은 그 변화를 1회로 인식하여 단 한번의 렌더링 과정만 거친다
