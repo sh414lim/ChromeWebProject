@@ -28,7 +28,6 @@ function handleLinkClick(){
 //이때 event object를 argument로 주고 있고
 loginForm.addEventListener("submit",onLoginSubmit);
 link.addEventListener("click",handleLinkClick);
-link.addEventListener
 
 //submit event 가 발생하면 브라우저가 알아서 저 function을 실행시켜준다.
 //()을 더하면 브라우저가 보자마자 자동으로 이 function을 실행시켜 버린다.
