@@ -440,3 +440,12 @@ return null ; //state를 변경할 필요가 없다면 null을 반환
 #### 자바에서 스레드를 생성하는 방법에는 다음과 같이 두 가지 방법이 있습니다.
 #### 1. Runnable 인터페이스를 구현하는 방법
 ##### 2. Thread 클래스를 상속받는 방법
+
+### React Native앱의 실행과정
+
+- 1. 앱이 시작되면서 main thread 가 실행되고 메인 스레드는 JS 스레드를 실행 시키고 자바스크립트 번들을 로드
+- 2. JS 스레드가 실행되면서 React 는 Virtual DOM을 생성하고 diffing 알고리즘을 통해 변경사항을 Native Bridge 를 경유하여 shadiw 스레드로 전달한다.
+- 3 shadow 스레드는 변경사항 메시지를 통해 화면의 레이아웃을 계산하고 계산이 끝난 레이아웃 의 파라미터나 객체를 메인 스레드로 보낸다
+- 4 메인 스레드가 UI를 화면에 표시한다.
+- 5 사용자가 화면에 입력한 UI 이벤트 정보들이 Native Bridge 를 경유하여 JS 스레드로 보내진다
+- 6 UI 이벤트 메시지를 활용하여 JS 스레드에서 비즈니스 로직들이 실행되고 React 는 다시 Vitual Dom 을 생성하여 변경사항을 다시 Native Bridge 를 경유하여 shdow thread 로 전달
