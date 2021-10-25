@@ -192,11 +192,84 @@ const promiose =new Promise((resolve,reject)=>{
 
 ## DOM
 ### DOM?
-#### -> DOM은 html이 아니다
+#### -> DOM은 html이 아니다(웹 페이지에 대한 프로그래밍 인터페이스)
 #### html이 파싱되어사 브라우저로 보내진다 - >html 안에는 내가 웹페이지에 표현하고 싶은 구조가 설계되어 있다
+#### body태그 안에는 header body ->ui li 등이 담겨 잇다
+#### 그러한 웹페이지에 표현할 구조를 파싱하여 브라우저로 보낸다 -> 브라우저가 html요소들을 웹페이지로 렌더링한다
+#### input 같은 문자열등이 지정된 타입에따라 입력을 받고 value 보낼수 잇는 객체(object) 로 만들어 진다.
+#### 이렇게 실제 웹페이지로 제작된다.
+#### html 에 맞춰져서 node들이 배치되고 이것들을 추가적으로 명력을 본 속성 디자인 배치 등을 조작할 수 있는 상태 즉,
+####  html 이란 코드로 설계된 웹페이지가 브라우저 안에서 화면에 나타나고 이벤트에 반응하고 값을 입력하는 것 처럼->
+### 기능들을 수행할 객체들로 실체화된 형태 가 dom이다 -> dom을 이용해서 웹화면을 보여주고 필요에 따라 dom을 조작할 수있다.
+#### Dom은 어떤 언어로든 라이브러리만 갖추어지면 dom 을 조작 가능 api 를 가지고 잇어서
+#### dom 은 트리구조로 되어 잇다
+#### dom의 모든 요소는 node로 부터 상속된다. - > html 요소들은 다 node다,
+#### 모두가 node 의 기능을 기본적으로 가지고 잇다. -> 추상클래스,
+#### enenttarget을 상속 받기때문에 addlister 를 가지고 잇다.
+#### 각 요소에 고유 기능이나 속성이 잇다 -> api 들로 구성
+#### html이나 xml 실체로 나타내는 api
+#### cssom이라는 걸로 따로 만들어진다.
+
 
 
 ### DOM 은 HTML 문서의 계층적 구조를 표현하여 이를 제어할 수 있는 API, 즉 프로퍼티와 메서드를 제공하는 트리 자료구조다
+
+### virtual dom
+#### 기존 브라우저가 어떤 방식으로 동작?
+##### 브라우저의 렌더링엔진이 html 코드를 읽고 파싱하여 dom트리 생성
+##### css 파일나 html에 인라은로 작성된 스타일 코드를 파싱하여 css dom을 구성
+#####  이렇게 만들어진 dom tree와 css dom 을 결합하여 render tree 를 생성
+##### remder tree 는 문서에 시각적인 구조를 나타낸다 -> layout 단계로 넘어간다 각 노들의 스크른에서의 좌표에 따라 위치결정 여기서 position 이나 size 가 결정 이렇게 구성된 repaint 과정을 거쳐 실제 화면에 결정
+##### 여기서 리터렉션에 의해 dom 에 변화가 발생하면 render tree 가 그때마다 재생성 
+##### spa 를 많이 사용하면서 dom tree 룰  즉각적 교체 필요 
+#### vitual dom은 복사본 html dom의 추상화 버전 
+#### dom object 와 같은 속성을 가지고 잇지만 실제 ddom 이 가지고 이는 api 는 가지고 잇지 않다
+#### 데이터 가 반영되거전에 ui 는 vitual dom에 렌더링
+#### 비교후 바뀐 부분만 돔에 패치
+#### vitual dom 은 html 객체에 기반한 자바스크립트 객체로 표현할 수 있다.
+####  자바스크립트 처리는 돔이 아닌 메모리 상에서 동작 하기 때문에 휠씬더 빠르게 동작
+#### 실제 렌더링 안됨 -> 연산 비용 최소화
+#### 실제 vitual dom 은 dom fragement 의 변화를 묶어서 적용한 다음 기존 dom dom 에 던져주는 괴정
+### 단지 vitual dom 은 이 과정을 자동화 추상화 해놓은 과정
+#### react -> ui 의 가상적인 표현을 메모리에 저장하고 reactdom과 같은 라이브러리에 의해 실제 dom 과 동기화 -> 재조정 과정
+#### jsx -> html 태크가 아닌 js 확장 문법  리턴 시키면 바벨은 jsx fmf react.createlement 객체를 리턴 호출
+#### react 는 다음과 같은 객체로 구성
+<script>
+    const elements={
+        type:'div',
+        props:{
+            className:'teach-course',
+            children:{
+                {
+                    type:'h1',
+                    children:'hello react!'
+                }
+            }
+        }
+    }
+</script>
+#### vitual dom 과 비슷한 객체구성 요소
+#### react elements 는 dome 요소의 가상 버전으로 가볍고 상태를 가지지 않고 불변성 유지 비교 업데이트 쉬워짐
+#### react elemets 는 react dom 에 실제 렌더링 해서  실제 돔요소가 된다
+<script>
+    const elemets= React.createaElement("div",{
+        className:'teach-course',
+    },React.createElement("h1",null,"hello world")
+    );
+
+    ReactDom.render(elememt,document.getElementById('wowa-root')); // 실제 dom 반영 렌더
+    </script>
+#### react 이 객체를 읽어들이거 사용해서 dom 을 구성 최신상태 유지
+##### 하지만 react clememts 는 변경이 불가능 한번 요소를 만들면 자식이나 속성 변경 불가능 ui 변경방법은 새로운 요소를 만들어 react.elements 재 렌더링
+##### 하지만 이때 react vitual dom 을 활용
+#####  모든 react dom object 는 그에 대응하는 vitual dom object 가 있다.=>vitual dom 은 그 dom object 에 하나하나 매핑
+##### 바뀐 데이터를 바탕으로 react.crateelement() 를 통해 jsx elements 를 렌더링 vitual dom 업데이트
+##### react 는 업데이트 전 vital Dom 과 비교하여 정확히 어떤 vitual dom 이 바뀌엇는지 검사 ->diffing 검사
+##### 엘리먼트가 속성값만 업데이트 되면 속성값만 변경 해당 엘리먼트의 태그는  컴포넌트가 변경되면 하위 모든 노드를 언마운트 후 세롭게 대체후 반영
+##### ㄷ
+
+
+
 
 ### 자바스크립트의 배열이 실제 자료구조 배열이 아닌 이유
 #### 자바스크립트 배열은 실제 자료구조의 배열과 다르게 HashMap구현
