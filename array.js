@@ -11,4 +11,4 @@ const sayHello = (name) => "Hello" + name;
 
 const lim =sayHello("Sung");
 
-console.log(lim)
+console.log(lim)s
